@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import getAllInvoices from '../services/getInvoices';
 import Modal from 'react-modal';
+import '../App.css';
 
 function InvoiceTable() {
   const [data, setData] = useState(null);
@@ -14,7 +15,10 @@ function InvoiceTable() {
     const getInvoices = async () => {
       try {
         const apiInvoice = await getAllInvoices();
-        setData(apiInvoice);
+        const apiInovce_filter = apiInvoice.filter(
+          (item) => item.type === 'received'
+        );
+        setData(apiInovce_filter);
       } catch (error) {
         console.error(error);
       }
@@ -41,8 +45,8 @@ function InvoiceTable() {
     }
   }, [selectedInvoice]);
 
-  const handleRadioChange = (itemId) => {
-    setselectedInvoice(itemId);
+  const handleRadioChange = (id) => {
+    setselectedInvoice(id);
     setSelectedCreditNote(null);
     setShowAssignButton(false);
   };
@@ -68,19 +72,14 @@ function InvoiceTable() {
 
   return (
     <div>
-      <h2>Tabla de Datos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>ID</th>
-            <th>Amount</th>
-            <th>Type</th>
-          </tr>
-        </thead>
+      <h2>Selecciona una factura</h2>
+      <table className="table-container  centered-table">
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={item.id}>
+            <tr
+              key={item.id}
+              className={item.id === selectedInvoice ? 'selected-row' : ''}
+            >
               <td>
                 <input
                   type="radio"
@@ -90,30 +89,32 @@ function InvoiceTable() {
                   onChange={() => handleRadioChange(item.id)}
                 />
               </td>
-              <td>{`inv${index + 1} (${item.organization_id})`}</td>
+              <td>
+                <span>{`inv${index + 1}`} </span>
+                <span className="organization-id">
+                  {`(${item.organization_id})`}
+                </span>
+              </td>
               <td>{item.amount}</td>
               <td>{item.type}</td>
             </tr>
           ))}
         </tbody>
       </table>
-
       {selectedInvoice && (
         <>
-          <h2>Tabla de Credit Notes</h2>
+          <h2>Selecciona una nota de crédito</h2>
+
           {creditNotes?.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ID</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
+            <table className="table-container  centered-table">
               <tbody>
-                {creditNotes.map((item) => (
-                  <tr key={item.id}>
+                {creditNotes.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={
+                      item.id === selectedCreditNote ? 'selected-row' : ''
+                    }
+                  >
                     <td>
                       <input
                         type="radio"
@@ -123,7 +124,12 @@ function InvoiceTable() {
                         onChange={() => handleCreditNoteChange(item.id)}
                       />
                     </td>
-                    <td>{item.id}</td>
+                    <td>
+                      <span>{`cn${index + 1}`} </span>
+                      <span className="organization-id">
+                        {`(${item.organization_id})`}
+                      </span>
+                    </td>
                     <td>{item.amount}</td>
                     <td>{item.type}</td>
                   </tr>
