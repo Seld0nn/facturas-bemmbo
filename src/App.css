@@ -1,0 +1,62 @@
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-container th {
+  font-weight: bold;
+}
+
+.table-container tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-container .highlighted {
+  background-color: #f9f9f9;
+}
+
+.table-container .organization-id {
+  color: #999999;
+}
+
+.centered-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-table table {
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  background-color: rgb(104, 97, 234);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+div {
+  text-align: center;
+}
+
+.selected-row {
+  background-color: #e6f2ff;
+}
